@@ -133,7 +133,7 @@ static int suspend_test(int level)
  */
 static int suspend_prepare(suspend_state_t state)
 {
-	int error;
+	int error = 0;
 
 	if (need_suspend_ops(state) && (!suspend_ops || !suspend_ops->enter))
 		return -EPERM;
@@ -177,7 +177,7 @@ void __attribute__ ((weak)) arch_suspend_enable_irqs(void)
  */
 static int suspend_enter(suspend_state_t state, bool *wakeup)
 {
-	int error;
+	int error = 0;
 
 	if (need_suspend_ops(state) && suspend_ops->prepare) {
 		error = suspend_ops->prepare();
@@ -253,7 +253,7 @@ static int suspend_enter(suspend_state_t state, bool *wakeup)
  */
 int suspend_devices_and_enter(suspend_state_t state)
 {
-	int error;
+	int error = 0;
 	bool wakeup = false;
 
 	if (need_suspend_ops(state) && !suspend_ops)
@@ -375,7 +375,7 @@ static int sys_sync_queue(void)
  */
 static int enter_state(suspend_state_t state)
 {
-	int error;
+	int error = 0;
 
 	if (!valid_state(state))
 		return -ENODEV;
@@ -435,7 +435,7 @@ static void pm_suspend_marker(char *annotation)
  */
 int pm_suspend(suspend_state_t state)
 {
-	int error;
+	int error = 0;
 
 	if (state <= PM_SUSPEND_ON || state >= PM_SUSPEND_MAX)
 		return -EINVAL;
