@@ -40,9 +40,9 @@ jobs:
       run: |
         docker exec ubuntu12-arm32-kernel bash -c "
           cd /kernel-source &&
-          make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- CFLAGS="-Wno-error" clean &&
-          make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- CFLAGS="-Wno-error" msm8916_defconfig &&
-          make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- CFLAGS="-Wno-error" -j$(nproc)
+          make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- CFLAGS="-Wno-error -Wno-uninitialized" clean &&
+          make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- CFLAGS="-Wno-error -Wno-uninitialized" msm8916_defconfig &&
+          make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- CFLAGS="-Wno-error -Wno-uninitialized" -j$(nproc)
         "
 
     - name: Retrieve
