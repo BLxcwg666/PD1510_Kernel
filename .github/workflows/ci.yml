@@ -20,6 +20,10 @@ jobs:
       run: |
         docker run --name ubuntu12-arm32-kernel -dit i386/ubuntu:12.04 bash
 
+    - name: Update sources.list
+      run: |
+        docker exec ubuntu12-arm32-kernel bash -c "sed -i 's/http:\/\/archive.ubuntu.com/http:\/\/old-releases.ubuntu.com/g' /etc/apt/sources.list"
+
     - name: Install
       run: |
         docker exec ubuntu12-arm32-kernel bash -c "
