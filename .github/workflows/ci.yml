@@ -48,8 +48,7 @@ jobs:
 
     - name: Retrieve Kernel Artifacts
       run: |
-        mkdir -p build-artifacts &&
-        docker cp ubuntu12-arm32-kernel:/kernel-source/out/* ./build-artifacts/
+        docker cp ubuntu12-arm32-kernel:/kernel-source/out ./build-artifacts
 
     - name: Clean up
       run: |
