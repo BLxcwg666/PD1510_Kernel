@@ -45,25 +45,21 @@ jobs:
           make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- -j$(nproc)
         "
 
-    - name: Retrieve
+    - name: Retrieve Kernel Artifacts
       run: |
-        docker cp ubuntu12-arm32-kernel:/kernel-source/arch/arm/boot/zImage ./zImage
+        mkdir -p build-artifacts &&
+        docker cp ubuntu12-arm32-kernel:/kernel-source/arch/arm/boot/zImage ./build-artifacts/zImage &&
+        docker cp ubuntu12-arm32-kernel:/kernel-source/arch/arm/boot/Image ./build-artifacts/Image &&
+        docker cp ubuntu12-arm32-kernel:/kernel-source/arch/arm/boot/dts ./build-artifacts/dts &&
+        docker cp ubuntu12-arm32-kernel:/kernel-source/System.map ./build-artifacts/System.map &&
+        docker cp ubuntu12-arm32-kernel:/kernel-source/.config ./build-artifacts/config
 
     - name: Clean up
       run: |
         docker rm -f ubuntu12-arm32-kernel
 
-    - name: Archive Build Artifacts
-      run: |
-        mkdir -p artifacts
-        cp -r /kernel-source/arch/arm/boot/* artifacts/
-        cp -r /kernel-source/drivers artifacts/
-        cp /kernel-source/System.map artifacts/
-        cp /kernel-source/.config artifacts/
-        cp /kernel-source/vmlinux artifacts/
-
     - name: Upload Artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: kernel-artifacts
-        path: artifacts/
+        name: compiled-arm32-kernel
+        path: build-artifacts/
