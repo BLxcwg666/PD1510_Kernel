@@ -41,7 +41,7 @@ jobs:
         docker exec ubuntu12-arm32-kernel bash -c "
           cd /kernel-source &&
           make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- clean &&
-          make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- msm8916_defconfig &&
+          make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- pd1510_defconfig &&
           make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- -j$(nproc)
         "
 
