@@ -28,8 +28,8 @@ jobs:
         docker exec kernel-build apt-get update
         docker exec kernel-build apt-get install -y \
           build-essential \
-          gcc-4.8 \
-          g++-4.8 \
+          gcc-4.9 \
+          g++-4.9 \
           make \
           libncurses5-dev \
           libssl-dev \
@@ -44,11 +44,10 @@ jobs:
           libssl-dev \
           openssl
 
-    - name: Install Linaro GCC Toolchain (ARM-EABI-4.8)
+    - name: Install Linaro GCC Toolchain (ARM-EABI-4.9)
       run: |
-        docker exec kernel-build apt-get install -y gcc-4.8 g++-4.8
         docker exec kernel-build apt-get install -y gcc-arm-linux-gnueabi
-        docker exec kernel-build ln -s /usr/bin/gcc-4.8 /usr/bin/arm-eabi-gcc
+        docker exec kernel-build ln -s /usr/bin/gcc-4.9 /usr/bin/arm-eabi-gcc
 
     - name: Copy Source
       run: |
