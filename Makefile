@@ -15,8 +15,6 @@ NAME = TOSSUG Baby Fish
 #    (this increases performance and avoids hard-to-debug behaviour);
 # o  print "Entering directory ...";
 MAKEFLAGS += -rR --no-print-directory
-CFLAGS += -w
-KBUILD_CFLAGS += -w
 
 # Avoid funny character set dependencies
 unexport LC_ALL

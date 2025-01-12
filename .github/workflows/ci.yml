@@ -43,8 +43,8 @@ jobs:
           echo \$CFLAGS &&
           echo \$KBUILD_CFLAGS &&
           make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- clean &&
-          make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- defconfig &&
-          KBUILD_CFLAGS='-w' make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- -j\$(nproc)
+          make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- msm8916_defconfig &&
+          make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- CFLAGS=-w KBUILD_CFLAGS=-w -j\$(nproc)
         "
         
     - name: Retrieve
