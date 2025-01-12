@@ -40,9 +40,9 @@ jobs:
       run: |
         docker exec ubuntu12-arm32-kernel bash -c "
           cd /kernel-source &&
-          make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- CFLAGS='-Wno-error -Wno-uninitialized' clean &&
-          make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- CFLAGS='-Wno-error -Wno-uninitialized' defconfig &&
-          make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- CFLAGS='-Wno-error -Wno-uninitialized' -j$(nproc)
+          make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- CFLAGS='-Wno-error -Wno-uninitialized -Wno-declaration-after-statement' clean &&
+          make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- CFLAGS='-Wno-error -Wno-uninitialized -Wno-declaration-after-statement' defconfig &&
+          make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- CFLAGS='-Wno-error -Wno-uninitialized -Wno-declaration-after-statement' -j$(nproc)
         "
     
     - name: Retrieve

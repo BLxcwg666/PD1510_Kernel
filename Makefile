@@ -15,13 +15,13 @@ NAME = TOSSUG Baby Fish
 #    (this increases performance and avoids hard-to-debug behaviour);
 # o  print "Entering directory ...";
 MAKEFLAGS += -rR --no-print-directory
+CONFIG_EXTRA_CFLAGS="-Wno-error -Wno-uninitialized -Wno-declaration-after-statement"
 
 # Avoid funny character set dependencies
 unexport LC_ALL
 LC_COLLATE=C
 LC_NUMERIC=C
 export LC_COLLATE LC_NUMERIC
-export CFLAGS="$CFLAGS -Wno-error"
 
 # We are using a recursive build, so we need to do a little thinking
 # to get the ordering right.
