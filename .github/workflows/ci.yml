@@ -16,14 +16,9 @@ jobs:
     - name: Checkout source code
       uses: actions/checkout@v3
 
-    - name: Configure Docker
-      run: |
-        echo '{"deprecated-registries": ["docker.io"]}' | sudo tee /etc/docker/daemon.json
-        sudo systemctl restart docker
-
     - name: Set up Docker
       run: |
-        docker run --name ubuntu12-arm32-kernel -dit tianon/ubuntu:12.04 bash
+        docker run --name ubuntu12-arm32-kernel -dit i386/ubuntu:12.04 bash
 
     - name: Install
       run: |
