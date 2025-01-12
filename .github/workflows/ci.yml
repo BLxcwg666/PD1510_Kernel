@@ -44,9 +44,9 @@ jobs:
           echo \$KBUILD_CFLAGS &&
           make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- clean &&
           make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- defconfig &&
-          make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- KBUILD_CFLAGS=-w -j$(nproc)
+          KBUILD_CFLAGS='-w' make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- -j\$(nproc)
         "
-    
+        
     - name: Retrieve
       run: |
         docker cp ubuntu12-arm32-kernel:/kernel-source/arch/arm/boot/zImage ./zImage
