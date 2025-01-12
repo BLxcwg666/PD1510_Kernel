@@ -23,6 +23,8 @@ jobs:
 
     - name: Install dependencies in Docker
       run: |
+        docker exec kernel-build bash -c "echo 'deb http://archive.debian.org/debian/ wheezy main' > /etc/apt/sources.list"
+        docker exec kernel-build bash -c "echo 'deb http://archive.debian.org/debian-security/ wheezy/updates main' >> /etc/apt/sources.list"
         docker exec kernel-build apt-get update
         docker exec kernel-build apt-get install -y \
           build-essential \
