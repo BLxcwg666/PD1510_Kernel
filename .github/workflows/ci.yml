@@ -53,8 +53,17 @@ jobs:
       run: |
         docker rm -f ubuntu12-arm32-kernel
 
-    - name: Upload Artifact
+    - name: Archive Build Artifacts
+      run: |
+        mkdir -p artifacts
+        cp -r /kernel-source/arch/arm/boot/* artifacts/
+        cp -r /kernel-source/drivers artifacts/
+        cp /kernel-source/System.map artifacts/
+        cp /kernel-source/.config artifacts/
+        cp /kernel-source/vmlinux artifacts/
+
+    - name: Upload Artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: compiled-arm32-kernel
-        path: zImage
+        name: kernel-artifacts
+        path: artifacts/
