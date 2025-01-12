@@ -48,7 +48,7 @@ jobs:
     - name: Retrieve
       run: |
         mkdir out
-        docker cp ubuntu12-arm32-kernel:/kernel-source/arch/arm/boot ./out
+        docker cp -L ubuntu12-arm32-kernel:/kernel-source/arch/arm/boot ./out
 
     - name: Clean up
       run: |
