@@ -40,11 +40,9 @@ jobs:
       run: |
         docker exec ubuntu12-arm32-kernel bash -c "
           cd /kernel-source &&
-          echo \$CFLAGS &&
-          echo \$KBUILD_CFLAGS &&
           make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- clean &&
-          make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- defconfig &&
-          make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- CFLAGS=-w KBUILD_CFLAGS=-w -j\$(nproc)
+          make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- msm8916_defconfig &&
+          make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- CFLAGS='-w' KBUILD_CFLAGS='-w' -j\$(nproc)
         "
         
     - name: Retrieve
