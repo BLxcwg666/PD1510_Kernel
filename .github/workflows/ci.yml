@@ -47,8 +47,9 @@ jobs:
 
     - name: Retrieve
       run: |
-        docker cp ubuntu12-arm32-kernel:/kernel-source/arch/arm/boot/zImage ./zImage
-        docker cp ubuntu12-arm32-kernel:/kernel-source/arch/arm/boot/Image ./Image
+        mkdir out
+        docker cp ubuntu12-arm32-kernel:/kernel-source/arch/arm/boot/zImage ./out/zImage
+        docker cp ubuntu12-arm32-kernel:/kernel-source/arch/arm/boot/Image ./out/Image
 
     - name: Clean up
       run: |
@@ -58,4 +59,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: compiled-arm32-kernel
-        path: zImage Image
+        path: ./out
