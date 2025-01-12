@@ -1,4 +1,4 @@
-name: Build Arm32
+name: Build Kernel
 
 on:
   push:
@@ -9,52 +9,67 @@ on:
       - main
 
 jobs:
-  build-kernel:
+  build:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout source code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v2
 
-    - name: Set up Docker
+    - name: Set up Docker with Debian 7
       run: |
-        docker run --name ubuntu12-arm32-kernel -dit i386/ubuntu:12.04 bash
+        docker pull debian:7
+        docker run --rm -d --name kernel-build debian:7 sleep infinity
 
-    - name: Update sources.list
+    - name: Install dependencies in Docker
       run: |
-        docker exec ubuntu12-arm32-kernel bash -c "sed -i 's/http:\/\/archive.ubuntu.com/http:\/\/old-releases.ubuntu.com/g' /etc/apt/sources.list"
+        docker exec kernel-build apt-get update
+        docker exec kernel-build apt-get install -y \
+          build-essential \
+          gcc-4.8 \
+          g++-4.8 \
+          make \
+          libncurses5-dev \
+          libssl-dev \
+          bc \
+          wget \
+          curl \
+          git \
+          python \
+          bison \
+          flex \
+          libelf-dev \
+          libssl-dev \
+          openssl
 
-    - name: Install
+    - name: Install Linaro GCC Toolchain (ARM-EABI-4.8)
       run: |
-        docker exec ubuntu12-arm32-kernel bash -c "
-          apt-get update &&
-          apt-get install -y build-essential gcc-arm-linux-gnueabihf bc u-boot-tools libncurses5-dev flex bison python openssl &&
-          apt-get clean
-        "
+        docker exec kernel-build apt-get install -y gcc-4.8 g++-4.8
+        docker exec kernel-build apt-get install -y gcc-arm-linux-gnueabi
+        docker exec kernel-build ln -s /usr/bin/gcc-4.8 /usr/bin/arm-eabi-gcc
 
     - name: Copy Source
       run: |
-        docker cp . ubuntu12-arm32-kernel:/kernel-source
+        docker cp . kernel-build:/kernel
 
-    - name: Build Kernel
+    - name: Set up kernel configuration
       run: |
-        docker exec ubuntu12-arm32-kernel bash -c "
-          cd /kernel-source &&
-          make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- clean &&
-          make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- msm8916_defconfig &&
-          make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- CFLAGS='-w' KBUILD_CFLAGS='-w' -j\$(nproc)
-        "
-        
-    - name: Retrieve
-      run: |
-        docker cp ubuntu12-arm32-kernel:/kernel-source/arch/arm/boot/zImage ./zImage
+        docker exec kernel-build cd /kernel && make ARCH=arm CROSS_COMPILE=arm-eabi- msm8916_defconfig
 
-    - name: Clean up
+    - name: Build the kernel
       run: |
-        docker rm -f ubuntu12-arm32-kernel
+        docker exec kernel-build cd /kernel && make ARCH=arm CROSS_COMPILE=arm-eabi- -j$(nproc)
 
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v3
+    - name: Archive the built kernel
+      run: |
+        docker exec kernel-build cp /kernel/arch/arm/boot/zImage /kernel_build/zImage
+        docker cp kernel-build:/kernel_build/zImage ./zImage
+
+    - name: Upload built kernel as artifact
+      uses: actions/upload-artifact@v2
       with:
-        name: compiled-arm32-kernel
-        path: zImage
+        name: kernel-zImage
+        path: ./zImage
+
+    - name: Clean up Docker container
+      run: docker rm -f kernel-build
