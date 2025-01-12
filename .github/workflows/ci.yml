@@ -40,22 +40,21 @@ jobs:
       run: |
         docker exec ubuntu12-arm32-kernel bash -c "
           cd /kernel-source &&
-          mkdir out &&
-          make ARCH=arm O=out CROSS_COMPILE=arm-linux-gnueabihf- clean &&
-          make ARCH=arm O=out CROSS_COMPILE=arm-linux-gnueabihf- msm8916_defconfig &&
-          make ARCH=arm O=out CROSS_COMPILE=arm-linux-gnueabihf- -j$(nproc)
+          make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- clean &&
+          make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- msm8916_defconfig &&
+          make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- -j$(nproc)
         "
 
-    - name: Retrieve Kernel Artifacts
+    - name: Retrieve
       run: |
-        docker cp ubuntu12-arm32-kernel:/kernel-source/out ./build-artifacts
+        docker cp ubuntu12-arm32-kernel:/kernel-source/arch/arm/boot/zImage ./zImage
 
     - name: Clean up
       run: |
         docker rm -f ubuntu12-arm32-kernel
 
-    - name: Upload Artifacts
+    - name: Upload Artifact
       uses: actions/upload-artifact@v3
       with:
         name: compiled-arm32-kernel
-        path: build-artifacts/
+        path: zImage
