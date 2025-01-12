@@ -40,9 +40,8 @@ jobs:
       run: |
         docker exec ubuntu12-arm32-kernel bash -c "
           cd /kernel-source &&
-          export CFLAGS=-w &&
           make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- clean &&
-          make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- defconfig &&
+          make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- msm8916_defconfig &&
           make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- -j$(nproc)
         "
 
