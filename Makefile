@@ -15,7 +15,8 @@ NAME = TOSSUG Baby Fish
 #    (this increases performance and avoids hard-to-debug behaviour);
 # o  print "Entering directory ...";
 MAKEFLAGS += -rR --no-print-directory
-CONFIG_EXTRA_CFLAGS="-Wno-error -Wno-uninitialized -Wno-declaration-after-statement"
+CFLAGS += -w
+KBUILD_CFLAGS += -w
 
 # Avoid funny character set dependencies
 unexport LC_ALL
