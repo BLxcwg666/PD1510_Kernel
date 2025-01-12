@@ -28,7 +28,7 @@ jobs:
       run: |
         docker exec ubuntu12-arm32-kernel bash -c "
           apt-get update &&
-          apt-get install -y build-essential gcc-arm-linux-gnueabihf bc u-boot-tools libncurses5-dev flex bison python &&
+          apt-get install -y build-essential gcc-arm-linux-gnueabihf bc u-boot-tools libncurses5-dev flex bison python openssl &&
           apt-get clean
         "
 
