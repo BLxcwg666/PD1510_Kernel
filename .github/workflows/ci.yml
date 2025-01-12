@@ -40,11 +40,11 @@ jobs:
       run: |
         docker exec ubuntu12-arm32-kernel bash -c "
           cd /kernel-source &&
-          make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- CFLAGS="-Wno-error -Wno-uninitialized" clean &&
-          make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- CFLAGS="-Wno-error -Wno-uninitialized" defconfig &&
-          make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- CFLAGS="-Wno-error -Wno-uninitialized" -j$(nproc)
+          make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- CFLAGS='-Wno-error -Wno-uninitialized' clean &&
+          make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- CFLAGS='-Wno-error -Wno-uninitialized' defconfig &&
+          make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- CFLAGS='-Wno-error -Wno-uninitialized' -j$(nproc)
         "
-
+    
     - name: Retrieve
       run: |
         docker cp ubuntu12-arm32-kernel:/kernel-source/arch/arm/boot/zImage ./zImage
